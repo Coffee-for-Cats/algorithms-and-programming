@@ -23,22 +23,55 @@ int showMap() {
   return 0;
 }
 
+int askForColumn() {
+  int columnChossen;
+  while (1) {
+    scanf("%d", &columnChossen);
+    if (0 < columnChossen && columnChossen < 11) {
+      break;
+    } else
+      printf("Numero invalido! \n");
+  }
+  return columnChossen;
+}
+
+int tryPutOnMap(int columnChossen, char player) {
+  // iterates over the column
+  for (int i = 10; i >= 0; i--) {
+    //watcher for a blank place
+    if (!map[i][columnChossen]) {
+      // placer the player's char there
+      map[i][columnChossen] = player;
+      return 1;
+    };
+  }
+  // if no place is found in the column
+  return 0;
+}
+
 int main() {
   while(1) {
+    // gets the column from user input
     printf("Escolha a coluna que voce deseja posicionar o %c!\n", player);
     showMap();
-    int columnChossen;
-    scanf("%d", &columnChossen);
 
-    // places the X
-    for (int i = 10; i >= 0; i--) {
-      if (!map[i][columnChossen]) {
-        // it couldn't be "x"!
-        map[i][columnChossen] = player;
-        break;
-      };
+    // asks for the column from user input, and tries putting on the map
+    // if it doesn't work, tries again
+    int putOnMap = 0;
+    while (!putOnMap) {  
+      int columnChossen = askForColumn();
+      putOnMap = tryPutOnMap(columnChossen, player);
+      if (!putOnMap) printf("Esta coluna ja esta cheia, escolha outra. \n");
+      // to do: map full
     }
-    //changes the player
-    if (player == 'x') player = 'o'; else player = 'x';
+    // changes the player's char each round
+    if (player == 'x') {
+      player = 'o';
+    } else {
+      player = 'x';
+    }
+
+    // checks if the player did win
+    
   }
 }
