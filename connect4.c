@@ -42,11 +42,20 @@ int tryPutOnMap(int columnChossen, char player) {
     if (!map[i][columnChossen]) {
       // placer the player's char there
       map[i][columnChossen] = player;
-      return 1;
+      return i;
     };
   }
   // if no place is found in the column
-  return 0;
+  return -1;
+}
+
+int sameCharSequence(int x, int y, int stepJumpX, int stepJumpY, int counter) {
+  char atual = map[x][y];
+  if (atual != player) {
+    return counter;
+  } else {
+    return sameCharSequence(x + stepJumpX, y + stepJumpY, stepJumpX, stepJumpY, counter + 1);
+  }
 }
 
 int main() {
@@ -57,11 +66,13 @@ int main() {
 
     // asks for the column from user input, and tries putting on the map
     // if it doesn't work, tries again
-    int putOnMap = 0;
-    while (!putOnMap) {  
-      int columnChossen = askForColumn();
-      putOnMap = tryPutOnMap(columnChossen, player);
-      if (!putOnMap) printf("Esta coluna ja esta cheia, escolha outra. \n");
+    // height is -1 till the char is placed on the map
+    int height = -1;
+    int columnChossen;
+    while (height < 0) {  
+      columnChossen = askForColumn();
+      height = tryPutOnMap(columnChossen, player);
+      if (height < 0) printf("Esta coluna ja esta cheia, escolha outra. \n");
       // to do: map full
     }
     // changes the player's char each round
@@ -72,6 +83,7 @@ int main() {
     }
 
     // checks if the player did win
-    
+    int sideCharSequence = sameCharSequence(height, columnChossen, 1, 0, 0);
+    printf("%d", sideCharSequence);
   }
 }
