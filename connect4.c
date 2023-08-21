@@ -57,6 +57,7 @@ int sameCharMapIter(int x, int y, int stepJumpX, int stepJumpY, int counter) {
     return sameCharMapIter(x + stepJumpX, y + stepJumpY, stepJumpX, stepJumpY, counter + 1);
   } else {
     // end of the chain of repeated chars!
+    printf("found %d chars in sequence! config: %d | %d \n", counter, stepJumpX, stepJumpY);
     return counter;
   }
 }
@@ -64,22 +65,24 @@ int sameCharMapIter(int x, int y, int stepJumpX, int stepJumpY, int counter) {
 int checksForWin(int height, int columnChossen) {
   // ↔
   int toRightMarkeds = sameCharMapIter(height, columnChossen, 0, 1, 0);
-  int toLeftMarkeds = sameCharMapIter(height, columnChossen, 1, 0, 0);
-  if (toRightMarkeds + toLeftMarkeds >= 4) return 1;
+  int toLeftMarkeds = sameCharMapIter(height, columnChossen, 0, -1, 0);
+  if (toRightMarkeds + toLeftMarkeds > 4) return 1;
 
   // ↙ ↗
   int toRightUpMarkeds = sameCharMapIter(height, columnChossen, 1, 1, 0);
   int toLeftDownMarkeds = sameCharMapIter(height, columnChossen, -1, -1, 0);
-  if (toRightUpMarkeds + toLeftDownMarkeds >= 4) return 1;
+  if (toRightUpMarkeds + toLeftDownMarkeds > 4) return 1;
 
   // ↖ ↘
   int toLeftUpMarkeds = sameCharMapIter(height, columnChossen, 1, -1, 0);
   int toRightDownMarkeds = sameCharMapIter(height, columnChossen, -1, 1, 0);
-  if (toLeftUpMarkeds + toRightDownMarkeds >= 4) return 1;
+  if (toLeftUpMarkeds + toRightDownMarkeds > 4) return 1;
 
   // ⬇
   int toBottomMarkeds = sameCharMapIter(height, columnChossen, -1, -0, 0);
-  if (toBottomMarkeds >= 4) return 1;
+  if (toBottomMarkeds > 4) return 1;
+
+  return 0;
 }
 
 int main() {
@@ -103,7 +106,8 @@ int main() {
     // checks if the player did win
     int won = checksForWin(height, columnChossen);
     if (won) {
-      printf("O jogador %c venceu a partida!!! \n", player);
+      showMap();
+      printf("O JOGADOR %c VENCEU A PARTIDA!!! \n", player);
       break;
     }
 
