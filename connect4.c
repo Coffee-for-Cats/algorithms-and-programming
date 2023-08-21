@@ -61,8 +61,25 @@ int sameCharMapIter(int x, int y, int stepJumpX, int stepJumpY, int counter) {
   }
 }
 
-int win(char player) {
-  printf("O jogador %c venceu!!! \n", player);
+int checksForWin(int height, int columnChossen) {
+  // ↔
+  int toRightMarkeds = sameCharMapIter(height, columnChossen, 0, 1, 0);
+  int toLeftMarkeds = sameCharMapIter(height, columnChossen, 1, 0, 0);
+  if (toRightMarkeds + toLeftMarkeds >= 4) return 1;
+
+  // ↙ ↗
+  int toRightUpMarkeds = sameCharMapIter(height, columnChossen, 1, 1, 0);
+  int toLeftDownMarkeds = sameCharMapIter(height, columnChossen, -1, -1, 0);
+  if (toRightUpMarkeds + toLeftDownMarkeds >= 4) return 1;
+
+  // ↖ ↘
+  int toLeftUpMarkeds = sameCharMapIter(height, columnChossen, 1, -1, 0);
+  int toRightDownMarkeds = sameCharMapIter(height, columnChossen, -1, 1, 0);
+  if (toLeftUpMarkeds + toRightDownMarkeds >= 4) return 1;
+
+  // ⬇
+  int toBottomMarkeds = sameCharMapIter(height, columnChossen, -1, -0, 0);
+  if (toBottomMarkeds >= 4) return 1;
 }
 
 int main() {
@@ -84,25 +101,11 @@ int main() {
     }
 
     // checks if the player did win
-
-    // ↔
-    int toRightMarkeds = sameCharMapIter(height, columnChossen, 0, 1, 0);
-    int toLeftMarkeds = sameCharMapIter(height, columnChossen, 1, 0, 0);
-    if (toRightMarkeds + toLeftMarkeds >= 4) win(player);
-
-    // ↙ ↗
-    int toRightUpMarkeds = sameCharMapIter(height, columnChossen, 1, 1, 0);
-    int toLeftDownMarkeds = sameCharMapIter(height, columnChossen, -1, -1, 0);
-    if (toRightUpMarkeds + toLeftDownMarkeds >= 4) win(player);
-
-    // ↖ ↘
-    int toLeftUpMarkeds = sameCharMapIter(height, columnChossen, 1, -1, 0);
-    int toRightDownMarkeds = sameCharMapIter(height, columnChossen, -1, 1, 0);
-    if (toLeftUpMarkeds + toRightDownMarkeds >= 4) win(player);
-
-    // ⬇
-    int toBottomMarkeds = sameCharMapIter(height, columnChossen, -1, -0, 0);
-    if (toBottomMarkeds >= 4) win(player);
+    int won = checksForWin(height, columnChossen);
+    if (won) {
+      printf("O jogador %c venceu a partida!!! \n", player);
+      break;
+    }
 
     // changes the player's char each round
     if (player == 'x') {
