@@ -86,6 +86,8 @@ int checksForWin(int height, int columnChossen) {
 }
 
 int main() {
+  // this loop breaks when someone wins!
+  // to do: full map drawn.
   while(1) {
     // gets the column from user input
     printf("Escolha a coluna que voce deseja posicionar o %c!\n", player);
