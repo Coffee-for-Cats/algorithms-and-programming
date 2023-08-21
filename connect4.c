@@ -49,13 +49,20 @@ int tryPutOnMap(int columnChossen, char player) {
   return -1;
 }
 
-int sameCharSequence(int x, int y, int stepJumpX, int stepJumpY, int counter) {
+int sameCharMapIter(int x, int y, int stepJumpX, int stepJumpY, int counter) {
   char atual = map[x][y];
-  if (atual != player) {
-    return counter;
+  if (atual == player) {
+    // if the atual does contain the expected player, search on the next "node"
+    // this happens by using stepJump to determinate to which direction we are going
+    return sameCharMapIter(x + stepJumpX, y + stepJumpY, stepJumpX, stepJumpY, counter + 1);
   } else {
-    return sameCharSequence(x + stepJumpX, y + stepJumpY, stepJumpX, stepJumpY, counter + 1);
+    // end of the chain of repeated chars!
+    return counter;
   }
+}
+
+int win(char player) {
+  printf("O jogador %c venceu!!! \n", player);
 }
 
 int main() {
@@ -75,15 +82,33 @@ int main() {
       if (height < 0) printf("Esta coluna ja esta cheia, escolha outra. \n");
       // to do: map full
     }
+
+    // checks if the player did win
+
+    // ↔
+    int toRightMarkeds = sameCharMapIter(height, columnChossen, 0, 1, 0);
+    int toLeftMarkeds = sameCharMapIter(height, columnChossen, 1, 0, 0);
+    if (toRightMarkeds + toLeftMarkeds >= 4) win(player);
+
+    // ↙ ↗
+    int toRightUpMarkeds = sameCharMapIter(height, columnChossen, 1, 1, 0);
+    int toLeftDownMarkeds = sameCharMapIter(height, columnChossen, -1, -1, 0);
+    if (toRightUpMarkeds + toLeftDownMarkeds >= 4) win(player);
+
+    // ↖ ↘
+    int toLeftUpMarkeds = sameCharMapIter(height, columnChossen, 1, -1, 0);
+    int toRightDownMarkeds = sameCharMapIter(height, columnChossen, -1, 1, 0);
+    if (toLeftUpMarkeds + toRightDownMarkeds >= 4) win(player);
+
+    // ⬇
+    int toBottomMarkeds = sameCharMapIter(height, columnChossen, -1, -0, 0);
+    if (toBottomMarkeds >= 4) win(player);
+
     // changes the player's char each round
     if (player == 'x') {
       player = 'o';
     } else {
       player = 'x';
     }
-
-    // checks if the player did win
-    int sideCharSequence = sameCharSequence(height, columnChossen, 1, 0, 0);
-    printf("%d", sideCharSequence);
   }
 }
