@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-// map line - column
+// map line - column.
 char map[10][10];
 char player = 'x';
 
@@ -35,52 +35,62 @@ int askForColumn() {
   return columnChossen;
 }
 
+// tries putting player on map on the column chossen.
+// returns the height if a place is found; -1 if no place is found.
 int tryPutOnMap(int columnChossen, char player) {
   // iterates over the column
   for (int i = 10; i >= 0; i--) {
-    //watcher for a blank place
+    //watcher for a blank place.
     if (!map[i][columnChossen]) {
-      // placer the player's char there
+      // placer the player's char there.
       map[i][columnChossen] = player;
       return i;
     };
   }
-  // if no place is found in the column
+  // if no place is found in the column.
   return -1;
 }
 
+// iters in the map, starting at x/y, adding stepJumpX and stepJumpY in each iteration.
+// use stepJumpX and stepJumpY to make the direction for the "looking".
+// counter should start at 0. The function returns this counter incremented with
+// the number of sequential equal chars to the char on the x and y cords.
 int sameCharMapIter(int x, int y, int stepJumpX, int stepJumpY, int counter) {
   char atual = map[x][y];
   if (atual == player) {
-    // if the atual does contain the expected player, search on the next "node"
-    // this happens by using stepJump to determinate to which direction we are going
+    // if the atual does contain the expected player, search on the next "node".
+    // this happens by using stepJump to determinate to which direction we are going.
     return sameCharMapIter(x + stepJumpX, y + stepJumpY, stepJumpX, stepJumpY, counter + 1);
   } else {
     // end of the chain of repeated chars!
-    printf("found %d chars in sequence! config: %d | %d \n", counter, stepJumpX, stepJumpY);
+    // printf("found %d chars in sequence! config: %d | %d \n", counter, stepJumpX, stepJumpY);
     return counter;
   }
 }
 
+int sequenceToWin = 4;
+
+// it has to be > n and not >=, because the center is counted two times.
+// returns 1 if won, 0 if not.
 int checksForWin(int height, int columnChossen) {
   // ↔
   int toRightMarkeds = sameCharMapIter(height, columnChossen, 0, 1, 0);
   int toLeftMarkeds = sameCharMapIter(height, columnChossen, 0, -1, 0);
-  if (toRightMarkeds + toLeftMarkeds > 4) return 1;
+  if (toRightMarkeds + toLeftMarkeds > sequenceToWin) return 1;
 
   // ↙ ↗
   int toRightUpMarkeds = sameCharMapIter(height, columnChossen, 1, 1, 0);
   int toLeftDownMarkeds = sameCharMapIter(height, columnChossen, -1, -1, 0);
-  if (toRightUpMarkeds + toLeftDownMarkeds > 4) return 1;
+  if (toRightUpMarkeds + toLeftDownMarkeds > sequenceToWin) return 1;
 
   // ↖ ↘
   int toLeftUpMarkeds = sameCharMapIter(height, columnChossen, 1, -1, 0);
   int toRightDownMarkeds = sameCharMapIter(height, columnChossen, -1, 1, 0);
-  if (toLeftUpMarkeds + toRightDownMarkeds > 4) return 1;
+  if (toLeftUpMarkeds + toRightDownMarkeds > sequenceToWin) return 1;
 
   // ⬇
   int toBottomMarkeds = sameCharMapIter(height, columnChossen, -1, -0, 0);
-  if (toBottomMarkeds > 4) return 1;
+  if (toBottomMarkeds > sequenceToWin) return 1;
 
   return 0;
 }
