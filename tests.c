@@ -2,14 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int age;
-double time;
+int k;
 
 int main() {
-  printf("Hi, try writting something!\n");
-  scanf("%d %lf", &age, &time);
-
-  printf("%d, %lf", age, time);
+  k++;
+  printf("%d\n", k);
   
   //system("pause");
 }
