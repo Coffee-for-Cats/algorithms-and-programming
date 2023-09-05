@@ -9,8 +9,9 @@ int main() {
   scanf("%d", &galinhas);
 
   float preco;
-  printf("Qual o preco dos ovos hoje? \n");
+  printf("Qual o preco da duzia hoje? \n");
   scanf("%f", &preco);
+  preco = preco / 12;
 
   printf("Hoje voce ganhara R$ %.2f! \n", preco * galinhas);
 }
