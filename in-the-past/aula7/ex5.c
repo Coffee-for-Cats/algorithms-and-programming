@@ -1,4 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
+
 #include <stdio.h>
 #include <math.h>
 
@@ -13,12 +14,12 @@ int main() {
   while (continuar == 1) {
     float proximaIter = aprox - ((pow(aprox, 2) - num) / (2 * aprox));
 
-    if (fabs(proximaIter - aprox) < .1) {
+    if (fabs(proximaIter - aprox) < .01) {
       continuar = 0;
     }
     aprox = proximaIter;
   }
 
-  printf("%.4f eh a aproximacao calculada \n", aprox);
-  printf("%.4f eh o valor esperado \n", sqrt(num));
+  printf("%.8f eh a aproximacao calculada \n", aprox);
+  printf("%.8f eh o valor esperado \n", sqrt(num));
 }
