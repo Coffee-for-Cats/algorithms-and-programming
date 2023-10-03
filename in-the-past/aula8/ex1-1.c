@@ -11,7 +11,7 @@ int main() {
   vet[0] = input;
   maior = input; menor = input;
 
-  for (int i = 0; i < 9; i++) {
+  for (int i = 1; i < 10; i++) {
     printf("\n Digite um valor inteiro: ");
     scanf("%d", &input);
     vet[i] = input;
