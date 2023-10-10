@@ -12,6 +12,10 @@ int main() {
     // teria que filtrar o input aqui.
     printf("\nDigite o peso da %d cabra no primeiro mes: ", i + 1);
     scanf("%d", &pesoCabras1[i]);
+    if (pesoCabras1[i] < 0) {
+      printf("\nO peso nao pode ser negativo!");
+      i--;
+    }
   }
 
   for (int i = 0; i < rebanho; i++) {
