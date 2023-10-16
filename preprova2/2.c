@@ -49,7 +49,7 @@ int main() {
   int qtdPessoas = 0;
   int qtdPessoasPrimeiroShow = 0;
 
-  int idade = 0;
+  int idade = -1;
 
   int continuar = 1;
   while (idade != 0) {
@@ -59,45 +59,49 @@ int main() {
       scanf("%d", &idade);
     } while (idade < 0);
 
-    int primeiroShow;
-    do {
-      printf("Essa eh a primeira vez dessa pessoa em um show? 1 para sim, 0 para nao. \n");
-      scanf("%d", &primeiroShow);
-    } while (!(primeiroShow == 0 || primeiroShow == 1));
+    if (idade != 0) {
+      int primeiroShow;
+      do {
+        printf("Essa eh a primeira vez dessa pessoa em um show? 1 para sim, 0 "
+               "para nao. \n");
+        scanf("%d", &primeiroShow);
+      } while (!(primeiroShow == 0 || primeiroShow == 1));
 
-    if (primeiroShow == 1) {
-      qtdPessoasPrimeiroShow++;
-      somaIdadesPrimeiroShow += idade;
-    }
+      if (primeiroShow == 1) {
+        qtdPessoasPrimeiroShow++;
+        somaIdadesPrimeiroShow += idade;
+      }
 
-    int escolhaFavorito = 0;
-    while (!(escolhaFavorito >= 1 && escolhaFavorito <= 5)) {
-      printf("Qual o estilo musical que a pessoa mais gosta? \n");
-      printf("1-Pop \n2-Rock \n3-Pagode \n4-Sertanejo \n");
-      scanf("%d", &escolhaFavorito);
+      int escolhaFavorito = 0;
+      while (!(escolhaFavorito >= 1 && escolhaFavorito <= 5)) {
+        printf("Qual o estilo musical que a pessoa mais gosta? \n");
+        printf("1-Pop \n2-Rock \n3-Pagode \n4-Sertanejo \n");
+        scanf("%d", &escolhaFavorito);
+      }
+      switch (escolhaFavorito) {
+      case 1:
+        qtdPop++;
+        break;
+      case 2:
+        qtdRock++;
+        break;
+      case 3:
+        qtdPagode++;
+        break;
+      case 4:
+        qtdSertanejo++;
+        break;
+      }
+
+      qtdPessoas++;
     }
-    switch (escolhaFavorito) {
-    case 1:
-      qtdPop++;
-      break;
-    case 2:
-      qtdRock++;
-      break;
-    case 3:
-      qtdPagode++;
-      break;
-    case 4:
-      qtdSertanejo++;
-      break;
-    }
-    
-    qtdPessoas++;
   }
 
-  printf("\nQuantidade de pessoas entrevistadas: \n %d", qtdPessoas);
+  printf("\nQuantidade de pessoas entrevistadas: \n %d \n", qtdPessoas);
   printf("\nMedia das idades das pessoas entrevistadas que estao indo a "
-         "primeira vez no show. \n %f",
-         somaIdadesPrimeiroShow / qtdPessoasPrimeiroShow);
+         "primeira vez no show. \n %.2f \n",
+         (float)somaIdadesPrimeiroShow / (float)qtdPessoasPrimeiroShow);
+  
   // tipo de musica que os entrevistados mais gostaram:
   if (qtdPop > qtdRock) {
     //pop > rock
