@@ -93,18 +93,18 @@ int main() {
       }
       break;
     // Media do peso
-      case 2: {
-        if (qtd_aves == 0) {
-          printf("Nao ha aves cadastradas para que possamos calcular uma media!");
-        } else {
-          float soma = 0;
-          for (int i = 0; i < qtd_aves; i++) {
-            soma += pesos_aves[i];
-          }
-          float media = soma / (float) qtd_aves;
-          printf("A media de peso das aves eh de %.2f \n", media);
+    case 2: {
+      if (qtd_aves == 0) {
+        printf("Nao ha aves cadastradas para que possamos calcular uma media!");
+      } else {
+        float soma = 0;
+        for (int i = 0; i < qtd_aves; i++) {
+          soma += pesos_aves[i];
         }
+        float media = soma / (float) qtd_aves;
+        printf("A media de peso das aves eh de %.2f \n", media);
       }
+    }
       break;
     // Quantidade de perus femeas.
     case 3: {
@@ -115,22 +115,22 @@ int main() {
         printf("Existem %d perus femeas salvos! \n", contagem);
       }
       break;
-      // ID's das aves que nasceram em 04/07.
-      case 4: {
-        int explicacao = 0; // 0 = nao expliquei, 1 = expliquei.
-        for (int i = 0; i < qtd_aves; i++) {
-          if (dias_nasc[i] == 4 && meses_nasc[i] == 7) {
-            // gosto de minimizar if's dentro de for's, mas isso é mais rapido do que fazer 3 loops.
-            if (explicacao == 0) {
-              printf("As aves que nasceram dia 04/07 foram: ");
-              explicacao = 1; //tranca para eu não printar novamente a explicao
-            }
-            printf("%d, ", i + 1);
+    // ID's das aves que nasceram em 04/07.
+    case 4: {
+      int explicacao = 0; // 0 = nao expliquei, 1 = expliquei.
+      for (int i = 0; i < qtd_aves; i++) {
+        if (dias_nasc[i] == 4 && meses_nasc[i] == 7) {
+          // gosto de minimizar if's dentro de for's, mas isso é mais rapido do que fazer 3 loops.
+          if (explicacao == 0) {
+            printf("As aves que nasceram dia 04/07 foram: ");
+            explicacao = 1; //tranca para eu não printar novamente a explicao
           }
-          printf("\n");
+          printf("%d, ", i + 1);
         }
-        if (explicacao == 0) printf("Nenhuma ave nasceu em 04/07 \n");
+        printf("\n");
       }
+      if (explicacao == 0) printf("Nenhuma ave nasceu em 04/07 \n");
+    }
       break;
     case 5:
       printf("Encerando secao!");

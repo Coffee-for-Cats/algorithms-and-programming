@@ -100,7 +100,7 @@ int main() {
   printf("\nQuantidade de pessoas entrevistadas: \n %d \n", qtdPessoas);
   printf("\nMedia das idades das pessoas entrevistadas que estao indo a "
          "primeira vez no show. \n %.2f \n",
-         (float)somaIdadesPrimeiroShow / (float)qtdPessoasPrimeiroShow);
+         (float) somaIdadesPrimeiroShow / (float) qtdPessoasPrimeiroShow);
   
   // tipo de musica que os entrevistados mais gostaram:
   if (qtdPop > qtdRock) {

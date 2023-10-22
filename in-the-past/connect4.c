@@ -2,9 +2,10 @@
 //#include <vcruntime.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 
 // map line - column.
+// these variables are global because they need to be acessed everywhere in the
+// code, so passing them every time would be a waste of time, memory and complexity.
 char map[10][10];
 char player = 'x';
 
@@ -14,6 +15,7 @@ int showMap() {
   for (int i = 1; i <= 10; i++) {
     for (int j = 1; j <= 10; j++) {
       // if there is nothing, prints a space to keep the spacing of the grid.
+      // this is an error! I should populate the map.
       if(!map[i][j]) printf(" ");
       // actually prints the char on the map.
       printf("%c ", map[i][j]);
@@ -98,7 +100,8 @@ int checksForWin(int height, int columnChossen) {
 int main() {
   // this loop breaks when someone wins!
   // to do: full map drawn.
-  while(1) {
+  int playing = 1;
+  while(playing) {
     // gets the column from user input
     printf("Escolha a coluna que voce deseja posicionar o %c!\n", player);
     showMap();
@@ -120,7 +123,7 @@ int main() {
     if (won) {
       showMap();
       printf("O JOGADOR %c VENCEU A PARTIDA!!! \n", player);
-      break;
+      playing = 0;
     }
 
     // changes the player's char each round
