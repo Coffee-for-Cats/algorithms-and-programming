@@ -29,7 +29,9 @@ Node newNode(int number)
   return temp;
 }
 
+// a pointer to a function of type void
 typedef void(*voidLambda)();
+// an iteration function to execute a voidLambda function for each item in the linked list.
 void Iterate(Node linkedList, voidLambda func)
 {
   func(linkedList->number);
@@ -39,11 +41,13 @@ void Iterate(Node linkedList, voidLambda func)
   }
 }
 
+// simple function
 void myPrint(int num)
 {
   printf("%d\n", num);
 }
 
+// array.push(array, num)
 void pushInto(Node linkedList, int num)
 {
   if(linkedList->next == NULL) {
@@ -55,7 +59,8 @@ void pushInto(Node linkedList, int num)
   }
 }
 
-int main() {
+int main()
+{
   Node linkedList = newNode(2);
   pushInto(linkedList, 4);
   // transforms myPrint into a "lamba function" and passes it as parameter to interate.
