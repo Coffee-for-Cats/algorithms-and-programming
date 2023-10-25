@@ -44,7 +44,7 @@ void Iterate(Node linkedList, voidLambda func)
 // simple function
 void myPrint(int num)
 {
-  printf("%d\n", num);
+  printf("\n%d", num);
 }
 
 // array.push(array, num)
@@ -59,11 +59,61 @@ void pushInto(Node linkedList, int num)
   }
 }
 
+int deleteAtIndex(Node node, int index) {
+  // the next pointer is the one to be deleted.
+  if (node->next == NULL) {
+    printf("\nThe end of the list reached before finding the index.");
+    return 1;
+  }
+  if (index < 0) {
+    printf("\nIts not possible to delete the %dth node of the list!");
+    return 1;
+  }
+
+  Node nextPointer = node->next;
+  Node nextNextPointer = nextPointer->next;
+
+  // I may want to delete the first element, but the list has many other.
+  if (index == 0) {
+    // I have to copy the next and put it in the actual.
+    node->number = nextPointer->number;
+    // and connect them.
+    node->next = nextPointer->next;
+    // frees the next, as its info are saved in the actual.
+    free(nextPointer);
+    return 0;
+  }
+
+  if (index == 1)
+  {
+    // I have to copy the next-next node,
+    // Delete it. And then put it in this position.
+    // this is because I may want to delete the first element in the list.
+
+    // if the next pointer is the last...
+    if (nextPointer == NULL) {
+      free(nextPointer);
+      node->next = NULL;
+    } else {
+      printf("\nDeleting %d", nextPointer->number);
+      free(nextPointer);
+      node->next = nextNextPointer;
+    }
+  }
+  else
+  {
+    deleteAtIndex(node->next, index - 1);
+  }
+}
+
 int main()
 {
-  Node linkedList = newNode(2);
+  Node linkedList = newNode(3);
   pushInto(linkedList, 4);
+  pushInto(linkedList, 2);
+  pushInto(linkedList, 7);
   // transforms myPrint into a "lamba function" and passes it as parameter to interate.
+  deleteAtIndex(linkedList, 0);
   Iterate(linkedList, (voidLambda) &myPrint);
 
   //printf("\nCalled: %d", called);
