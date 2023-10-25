@@ -60,15 +60,6 @@ void pushInto(Node linkedList, int num)
 }
 
 int deleteAtIndex(Node node, int index) {
-  // the next pointer is the one to be deleted.
-  if (node->next == NULL) {
-    printf("\nThe end of the list reached before finding the index.");
-    return 1;
-  }
-  if (index < 0) {
-    printf("\nIts not possible to delete the %dth node of the list!");
-    return 1;
-  }
 
   Node nextPointer = node->next;
   Node nextNextPointer = nextPointer->next;
@@ -84,37 +75,35 @@ int deleteAtIndex(Node node, int index) {
     return 0;
   }
 
-  if (index == 1)
-  {
-    // I have to copy the next-next node,
-    // Delete it. And then put it in this position.
-    // this is because I may want to delete the first element in the list.
-
-    // if the next pointer is the last...
-    if (nextPointer == NULL) {
-      free(nextPointer);
-      node->next = NULL;
-    } else {
-      printf("\nDeleting %d", nextPointer->number);
-      free(nextPointer);
-      node->next = nextNextPointer;
-    }
+  // one before the item to be deleted.
+  if (index == 1) {
+    // I have to copy the address of the next-next node,
+    // Delete the next. And relink them.
+    
+    free(nextPointer);
+    // relinking.
+    node->next = nextNextPointer;
+  } else {
+    return deleteAtIndex(node->next, index - 1);
   }
-  else
-  {
-    deleteAtIndex(node->next, index - 1);
+
+  // the next pointer is the one to be deleted.
+  if (node->next == NULL) {
+    printf("\nThe end of the list reached before finding the index.");
+    return 1;
+  }
+  if (index < 0) {
+    printf("\nIts not possible to delete the %dth node of the list!");
+    return 1;
   }
 }
 
-int main()
-{
+int main() {
   Node linkedList = newNode(3);
   pushInto(linkedList, 4);
   pushInto(linkedList, 2);
   pushInto(linkedList, 7);
   // transforms myPrint into a "lamba function" and passes it as parameter to interate.
-  deleteAtIndex(linkedList, 0);
+  deleteAtIndex(linkedList, 1);
   Iterate(linkedList, (voidLambda) &myPrint);
-
-  //printf("\nCalled: %d", called);
 }
