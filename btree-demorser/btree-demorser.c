@@ -6,7 +6,7 @@
 typedef struct Node {
   struct Node *point;
   char character;
-  struct Node *line;
+  struct Node *dash;
 } Node;
 
 Node *newDictionary() {
@@ -15,7 +15,7 @@ Node *newDictionary() {
   Node *temp = malloc(sizeof(Node));
   if(temp) {
     temp->point = NULL;
-    temp->line = NULL;
+    temp->dash = NULL;
     // acesses the pointer passed, and change the pointer to the node.
     // so now the node is the temp I created.
   } else { printf("Error: memory.\n"); }
@@ -40,10 +40,10 @@ void addToDictionary(Node *dictionary, char code[], char character) {
       break;
     }
     case '-': {
-      printf("\nLine found");
+      printf("\nDash found");
       if(dictionary->point == NULL) {
         Node *tempNode = newDictionary();
-        dictionary->line = tempNode;
+        dictionary->dash = tempNode;
       }
       // Todo: remove first element of code.
       code++;
@@ -62,8 +62,19 @@ void addToDictionary(Node *dictionary, char code[], char character) {
   }
 }
 
+void freeTree(Node *node) {
+  if(node->point) {
+    freeNode(node->point);
+  }
+  if (node->dash) {
+    freeNode(node->dash);
+  }
+  free(node);
+}
+
 int main() {
   Node *dictionary = newDictionary();
   addToDictionary(dictionary, ".", 'e');
   printf("\nChar: %c\n", dictionary->point->character);
+  freeTree(dictionary);
 }
