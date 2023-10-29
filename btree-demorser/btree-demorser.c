@@ -24,12 +24,12 @@ Node *newDictionary() {
 }
 
 void addToDictionary(Node *dictionary, char code[], char character) {
-  printf("Code: %s\n", code);
+  // printf("Code: %s\n", code);
 
-  printf("Iterating!\n");
+  // printf("Iterating!\n");
   switch (code[0]) {
     case '.': {
-      printf("\nPoint found");
+      // printf("\nPoint found");
       if(dictionary->point == NULL) {
         Node *tempNode = newDictionary();
         dictionary->point = tempNode;
@@ -40,7 +40,7 @@ void addToDictionary(Node *dictionary, char code[], char character) {
       break;
     }
     case '-': {
-      printf("\nDash found");
+      // printf("\nDash found");
       if(dictionary->point == NULL) {
         Node *tempNode = newDictionary();
         dictionary->dash = tempNode;
@@ -51,7 +51,7 @@ void addToDictionary(Node *dictionary, char code[], char character) {
       break;
     }
     case '\0': {
-      printf("End of string reached!");
+      // printf("End of string reached!");
       dictionary->character = character;
       break;
     }
@@ -64,17 +64,29 @@ void addToDictionary(Node *dictionary, char code[], char character) {
 
 void freeTree(Node *node) {
   if(node->point) {
-    freeNode(node->point);
+    freeTree(node->point);
   }
   if (node->dash) {
-    freeNode(node->dash);
+    freeTree(node->dash);
   }
   free(node);
 }
 
 int main() {
+  // I cant have a / here.
+  FILE *dictionaryFile = fopen("dictionary.csv", "r");
+
+  // its just a test!
+  // prints line by line the dictionaryFile.
+  char line[100];
+  while(fgets(line, 100, dictionaryFile)) {
+    printf("Linha: %s", line);
+  }
+
+  fclose(dictionaryFile);
+
   Node *dictionary = newDictionary();
   addToDictionary(dictionary, ".", 'e');
-  printf("\nChar: %c\n", dictionary->point->character);
+  // printf("\nChar: %c\n", dictionary->point->character);
   freeTree(dictionary);
 }
