@@ -2,13 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-// node of the dictionary
+// structure of the dictionary.
 typedef struct Node {
   struct Node *point;
   char character;
   struct Node *dash;
 } Node;
 
+// returns a new empty dictionary.
 Node *newDictionary() {
   // the parameter is a pointer to a pointer to the dictionary.
   // here I create the dictionary and assign its pointer in the middle of them.
@@ -23,6 +24,7 @@ Node *newDictionary() {
   return temp;
 }
 
+// add to a dictioary, a character at the position code.
 void addToDictionary(Node *dictionary, char code[], char character) {
   // printf("Code: %s\n", code);
 
@@ -62,6 +64,28 @@ void addToDictionary(Node *dictionary, char code[], char character) {
   }
 }
 
+char search(Node *dictionary, char code[]) {
+  switch(code[0]) {
+    case '.': {
+      code++;
+      return search(dictionary->point, code);
+    }
+    break;
+    case '-': {
+      code++;
+      return search(dictionary->dash, code);
+    }
+    break;
+    case '\0': {
+      return dictionary->character;
+    }
+    default: {
+      printf("Error! Invalid searching code string.\n");
+    }
+  }
+}
+
+// frees the etire tree from the node. Has to be called in the end of program.
 void freeTree(Node *node) {
   if(node->point) {
     freeTree(node->point);
@@ -72,11 +96,12 @@ void freeTree(Node *node) {
   free(node);
 }
 
+// file handling
 typedef struct {
   char *code;
   char *character;
 } Pair;
-
+// separates a line of text with ',' into struct code & character.
 Pair separate(char line[]) {
   Pair pair;
   char *separator = ",";
@@ -100,8 +125,7 @@ int main() {
 
   fclose(dictionaryFile);
 
-  printf("%c\n", dictionary->point->character);
-  printf("%c\n", dictionary->dash->character);
+  printf("%c", search(dictionary, "."));
 
   freeTree(dictionary);
 }
