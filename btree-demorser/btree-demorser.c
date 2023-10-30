@@ -41,18 +41,18 @@ void addToDictionary(Node *dictionary, char code[], char character) {
     }
     case '-': {
       // printf("\nDash found");
-      if(dictionary->point == NULL) {
+      if(dictionary->dash == NULL) {
         Node *tempNode = newDictionary();
         dictionary->dash = tempNode;
       }
       // Todo: remove first element of code.
       code++;
-      addToDictionary(dictionary->point, code, character);
+      addToDictionary(dictionary->dash, code, character);
       break;
     }
     case '\0': {
-      // printf("End of string reached!");
       dictionary->character = character;
+      printf("Addded %c!\n", dictionary->character);
       break;
     }
     default: {
@@ -72,21 +72,36 @@ void freeTree(Node *node) {
   free(node);
 }
 
-int main() {
-  // I cant have a / here.
-  FILE *dictionaryFile = fopen("dictionary.csv", "r");
+typedef struct {
+  char *code;
+  char *character;
+} Pair;
 
-  // its just a test!
-  // prints line by line the dictionaryFile.
+Pair separate(char line[]) {
+  Pair pair;
+  char *separator = ",";
+
+  pair.code = strtok(line, separator);
+  pair.character = strtok(NULL, separator);
+
+  return pair;
+}
+
+int main() {
+  FILE *dictionaryFile = fopen("dictionary.csv", "r");
+  Node *dictionary = newDictionary();
+
+  // adds every term in the dictionary to the btree.
   char line[100];
   while(fgets(line, 100, dictionaryFile)) {
-    printf("Linha: %s", line);
+    Pair pair = separate(line);
+    addToDictionary(dictionary, pair.code, pair.character[0]);
   }
 
   fclose(dictionaryFile);
 
-  Node *dictionary = newDictionary();
-  addToDictionary(dictionary, ".", 'e');
-  // printf("\nChar: %c\n", dictionary->point->character);
+  printf("%c\n", dictionary->point->character);
+  printf("%c\n", dictionary->dash->character);
+
   freeTree(dictionary);
 }
