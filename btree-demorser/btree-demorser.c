@@ -64,20 +64,24 @@ void addToDictionary(Node *dictionary, char code[], char character) {
   }
 }
 
-char search(Node *dictionary, char code[]) {
+int search(char *dest, Node *dictionary, char code[]) {
+  if (dictionary == NULL) {
+    return 0;
+  }
   switch(code[0]) {
     case '.': {
       code++;
-      return search(dictionary->point, code);
+      return search(dest, dictionary->point, code);
     }
     break;
     case '-': {
       code++;
-      return search(dictionary->dash, code);
+      return search(dest, dictionary->dash, code);
     }
     break;
     case '\0': {
-      return dictionary->character;
+      *dest = dictionary->character;
+      return 1;
     }
     default: {
       printf("Error! Invalid searching code string.\n");
@@ -125,7 +129,21 @@ int main() {
 
   fclose(dictionaryFile);
 
-  printf("%c", search(dictionary, "."));
+  char code[100];
+  code[0] = '0'; // just to erase memory trash
+  while(code[0] != 'e') {
+    printf("Write the morse code of a character in dictionary (write 'e' to exit): \n");
+    scanf("%s", &code);
+    if (code[0] != 'e') {
+      char dest;
+      int success = search(&dest, dictionary, code);
+      if (success == 1) {
+        printf("Character: %c\n", dest);
+      } else {
+        printf("Character didnt found!\n");
+      }
+    }
+  }
 
   freeTree(dictionary);
 }
