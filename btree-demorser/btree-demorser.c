@@ -24,7 +24,7 @@ Node *newDictionary() {
   return temp;
 }
 
-// add to a dictioary, a character at the position code.
+// add to a dictioary, a character at the path of code.
 void addToDictionary(Node *dictionary, char code[], char character) {
   // printf("Code: %s\n", code);
 
@@ -101,7 +101,7 @@ typedef struct {
   char *code;
   char *character;
 } Pair;
-// separates a line of text with ',' into struct code & character.
+// separates a string with ',' into struct { code & character }.
 Pair separate(char line[]) {
   Pair pair;
   char *separator = ",";
