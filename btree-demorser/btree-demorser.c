@@ -140,7 +140,7 @@ int main() {
       if (success == 1) {
         printf("Character: %c\n", dest);
       } else {
-        printf("Character didnt found!\n");
+        printf("Character not found!\n");
       }
     }
   }
