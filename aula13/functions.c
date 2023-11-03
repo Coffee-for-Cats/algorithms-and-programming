@@ -1,16 +1,13 @@
 #include <stdio.h>
 
-int imprime_ast(int qtd)
+int soma(int a, int b)
 {
-  for (int i = 0; i < qtd; i++) {
-    printf("* ");
-  }
-  printf("\n");
+  int soma = a + b;
 }
 
-int main() {
-  imprime_ast(4);
-  imprime_ast(3);
-  imprime_ast(2);
-  imprime_ast(1);
+int main()
+{
+  int minhaSoma = soma(4, 3);
+  // variável soma não existe aqui.
+  printf("%d", minhaSoma);
 }
