@@ -64,6 +64,7 @@ void addToDictionary(Node *dictionary, char code[], char character) {
   }
 }
 
+// puts in dest the character found in dictionary on path code.
 int search(char *dest, Node *dictionary, char code[]) {
   if (dictionary == NULL) {
     return 0;
