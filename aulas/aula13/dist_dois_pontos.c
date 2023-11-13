@@ -23,6 +23,5 @@ int main() {
   printf("\nDigite a coordenada y do ponto 2: ");
   scanf("%f", &y2);
 
-  float dist = distancia(x1, y1, x2, y2);
-  printf("\nDistancia entre eles: %.4f", dist);
+  printf("\nDistancia entre eles: %.4f", distancia(x1, y1, x2, y2));
 }
